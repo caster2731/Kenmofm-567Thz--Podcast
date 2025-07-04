@@ -1,13 +1,13 @@
 name: Generate RSS
 
 on:
-  push:                     # ← 変更があったらすべて反応
+  push:
     branches:
-      - main                # ← ブランチ名を指定
+      - main
     paths:
-      - 'episodes/**'       # ← 全てのサブパスも含む
-      - 'generate_rss.py'   # ← スクリプト変更も対象
-      - '.github/**'        # ← ワークフロー自体も対象
+      - 'episodes/**'
+      - 'generate_rss.py'
+      - '.github/workflows/generate-rss.yml'
 
 jobs:
   build:
