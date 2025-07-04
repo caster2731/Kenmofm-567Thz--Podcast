@@ -1,29 +1,33 @@
 name: Generate RSS
 
 on:
-  push:
+  push:                     # ← 変更があったらすべて反応
+    branches:
+      - main                # ← ブランチ名を指定
     paths:
-      - 'episodes/*.mp3'
-      - 'generate_rss.py'
+      - 'episodes/**'       # ← 全てのサブパスも含む
+      - 'generate_rss.py'   # ← スクリプト変更も対象
+      - '.github/**'        # ← ワークフロー自体も対象
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Generate RSS
-      run: python generate_rss.py
+      - name: Generate RSS
+        run: python generate_rss.py
 
-    - name: Commit and push RSS
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'actions@github.com'
-        git add rss.xml
-        git commit -m "🔄 Auto-generate rss.xml" || echo "no changes"
-        git push
+      - name: Commit and push RSS
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'actions@github.com'
+          git add rss.xml
+          git commit -m "🔄 Auto-generate rss.xml" || echo "no changes"
+          git push
